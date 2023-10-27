@@ -1,11 +1,13 @@
 from fastapi import FastAPI
-from models.post import UserPost,post_item
+try:
+    from models.post import UserPost,post_item
+except Exception as e:
+    from app.models.post import UserPost,post_item
 from fastapi.responses import JSONResponse
 import json
 import sqlalchemy
 from sqlalchemy import text
 from fastapi.middleware.cors import CORSMiddleware
-
 
 
 app=FastAPI()
@@ -31,10 +33,11 @@ async def hello():
 @app.post("/savedetails")
 async def savedetails(post:UserPost):
     try:
-        # engine=sqlalchemy.create_engine('',pool_pre_ping=True)
+        # engine=sqlalchemy.create_engine('postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:5432/postgres',pool_pre_ping=True)
         # with engine.connect() as conn:
-        #     query=""
+        #     query="select * from public.userdetails_table limit 1"
         #     rs=conn.execute(text(query))
+        #     print(rs)
     
         msg=  "Hi "+post.first_name.title() +",Thanks for submitting your feedback!"+" See you again."
         response={"message":msg,"code":"200"}
