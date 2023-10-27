@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class UserPost(BaseModel):
     first_name:str
     last_name:str
-    College:str
+    college:str
     email:str
     contact:str
     radio_set1:str
@@ -12,5 +12,8 @@ class UserPost(BaseModel):
     radio_set4:str
     radio_set5:str
     about_the_event:str
-    Future_meetup_topics:str
+    future_meetup_topics:str
     feedback:str
+    
+class post_item(BaseModel):
+    link : str
