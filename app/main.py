@@ -50,16 +50,3 @@ async def postitem(post:post_item):
     
     return JSONResponse(post, status_code=200, headers=headers)
 
-
-
-# def insert_predlog():
-#   ssh_tunnel = SSHTunnelForwarder(
-#                   '18.144.161.193',
-#                   ssh_username='ec2-user',
-#                   ssh_private_key= 'db-key.pem',
-#                   remote_bind_address=('meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com', 5432)
-#               )
-#   ssh_tunnel.start()
-#   # engine = create_engine(f"postgresql+psycopg2://impuser:ImpU53r%40123@sdq-v2-ga-ops-dev.c1exmwlyuhyt.us-east-1.rds.amazonaws.com:{ssh_tunnel.local_bind_port}/sdq-int2")
-#   engine=create_engine(f"postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:{ssh_tunnel.local_bind_address}/postgres'")
-#   return engine.connect()
