@@ -36,14 +36,6 @@ async def hello():
 @app.post("/savedetails")
 async def savedetails(post:UserPost):
     try:
-        engine=sqlalchemy.create_engine('postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:5432/postgres',pool_pre_ping=True)
-        # engine1=insert_predlog()
-        with engine.connect() as conn:
-            # query="select * from public.userdetails_table limit 1"
-            query="insert into public.userdetails_table(user_name,user_data) values ({user_name},{user_data})"
-            values=(post.first_name,dict(post))
-            rs=conn.execute(text(query.format(values)))
-            print(rs)
     
         msg=  "Hi "+post.first_name.title() +",Thanks for submitting your feedback!"+" See you again."
         response={"message":msg,"code":"200"}
