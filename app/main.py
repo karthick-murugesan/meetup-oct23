@@ -8,6 +8,8 @@ import json
 import sqlalchemy
 from sqlalchemy import text
 from fastapi.middleware.cors import CORSMiddleware
+# from sshtunnel import SSHTunnelForwarder
+from sqlalchemy import create_engine
 
 
 app=FastAPI()
@@ -30,14 +32,18 @@ async def hello():
     res={"message":"hello world"}
     return JSONResponse(res, status_code=200, headers=headers)
 
+
 @app.post("/savedetails")
 async def savedetails(post:UserPost):
     try:
-        # engine=sqlalchemy.create_engine('postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:5432/postgres',pool_pre_ping=True)
-        # with engine.connect() as conn:
-        #     query="select * from public.userdetails_table limit 1"
-        #     rs=conn.execute(text(query))
-        #     print(rs)
+        engine=sqlalchemy.create_engine('postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:5432/postgres',pool_pre_ping=True)
+        # engine1=insert_predlog()
+        with engine.connect() as conn:
+            # query="select * from public.userdetails_table limit 1"
+            query="insert into public.userdetails_table(user_name,user_data) values ({user_name},{user_data})"
+            values=(post.first_name,dict(post))
+            rs=conn.execute(text(query.format(values)))
+            print(rs)
     
         msg=  "Hi "+post.first_name.title() +",Thanks for submitting your feedback!"+" See you again."
         response={"message":msg,"code":"200"}
@@ -51,3 +57,17 @@ async def savedetails(post:UserPost):
 async def postitem(post:post_item):
     
     return JSONResponse(post, status_code=200, headers=headers)
+
+
+
+# def insert_predlog():
+#   ssh_tunnel = SSHTunnelForwarder(
+#                   '18.144.161.193',
+#                   ssh_username='ec2-user',
+#                   ssh_private_key= 'db-key.pem',
+#                   remote_bind_address=('meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com', 5432)
+#               )
+#   ssh_tunnel.start()
+#   # engine = create_engine(f"postgresql+psycopg2://impuser:ImpU53r%40123@sdq-v2-ga-ops-dev.c1exmwlyuhyt.us-east-1.rds.amazonaws.com:{ssh_tunnel.local_bind_port}/sdq-int2")
+#   engine=create_engine(f"postgresql+psycopg2://postgres:Admin123@meetup-rds.cclbxzdtfauu.us-west-1.rds.amazonaws.com:{ssh_tunnel.local_bind_address}/postgres'")
+#   return engine.connect()
