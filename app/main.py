@@ -29,7 +29,7 @@ app.add_middleware(
 
 @app.get("/health")
 async def hello():
-    res={"message":"hello world"}
+    res={"message":"Good Morning"}
     return JSONResponse(res, status_code=200, headers=headers)
 
 
